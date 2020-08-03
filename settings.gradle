@@ -2,5 +2,5 @@
 
 rootProject.name = '2020-06-otus-java-korolev'
 include 'hw01-gradle'
-
+include 'hw02-generics'
 
