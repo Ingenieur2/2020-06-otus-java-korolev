@@ -18,7 +18,7 @@ class Benchmark implements BenchmarkMBean {
 
     /*        int k= (int) Math.round(idx*200000);
             array[idx] = new String(new char[k]);*/
-  //         Thread.sleep(10); //Label_1
+          Thread.sleep(10); //Label_1
         }
     }
 
