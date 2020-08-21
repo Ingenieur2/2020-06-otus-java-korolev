@@ -5,12 +5,4 @@ plugins {
 group 'ru.package01'
 version 'unspecified'
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-
-}
 
