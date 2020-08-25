@@ -10,7 +10,7 @@ public class MyApplication {
         System.out.println("Enter degree:  ");
         double degree = sc.nextDouble();
 
-        CalculationResult calculationResult = new CalculationResult(number, degree);
+        CalculationResult calculationResult = new CalculationResult(/*number, degree*/);
 
         System.out.println("Your result of calculating exponentiation: " + calculationResult.result());
         System.out.println("Your result is of calculating angle: " + calculationResult.calcArcTangent());
