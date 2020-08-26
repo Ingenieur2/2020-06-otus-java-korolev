@@ -1,0 +1,8 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.package01'
+version 'unspecified'
+
+
