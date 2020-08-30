@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'com.github.johnrengelman.shadow'
+}
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
+
+group 'ru.package01'
+
+
+repositories {
+    mavenCentral()
+}
+
+task DemoLogging(type: Jar, dependsOn: shadowJar) {
+    archiveBaseName.set('DemoLogging')
+    archiveVersion.set('0.1')
+    archiveClassifier.set('')
+    manifest {
+        attributes 'Main-Class': 'ru.package01.DemoLogging'
+    }
+    from zipTree(shadowJar.archiveFile)
+}
+tasks.build.dependsOn tasks.DemoLogging
