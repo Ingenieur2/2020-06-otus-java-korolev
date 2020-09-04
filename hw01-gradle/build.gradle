@@ -19,6 +19,7 @@ shadowJar {
     manifest {
         attributes 'Main-Class': 'ru.package01.HelloOtus'
     }
+
 }
 
 tasks.build.dependsOn tasks.shadowJar

@@ -24,17 +24,17 @@ public class RunnerTest {
 
         for (int i = 0; i < NUMBER_OF_TESTS; i++) {
 
-            Class<?> classString = Class.forName(CLASS_NAME);               //создание объекта класса CalculationResultTest
+            Class<?> classString = Class.forName(CLASS_NAME);               //creating new object of class"CalculationResultTest"
             Constructor<?> constructor = classString.getConstructor();
             var object1 = constructor.newInstance();
 
-            for (int j = 0; j < beforeListLength; j++) {        //выполнение аннотации BEFORE для j-ого метода
+            for (int j = 0; j < beforeListLength; j++) {        //doing annotation "before' for j-method
                 collectionsForTesting.beforeList.get(j).invoke(object1);
             }
             for (int j = 0; j < testListLength; j++) {
 
                 try {
-                    var result1 = collectionsForTesting.testList.get(j).invoke(object1);    //выполнение аннотации Test1 для j-ого метода
+                    var result1 = collectionsForTesting.testList.get(j).invoke(object1);    //doing annotation "Test1' for j-method
                     System.out.println(result1.toString());
                     if (result1.toString().contains("NaN") || (result1.toString().contains("Infinity"))) {
                         throw new ArithmeticException();
@@ -45,7 +45,7 @@ public class RunnerTest {
                     numberOfFailedTests++;
                 }
             }
-            for (int j = 0; j < afterListLength; j++) {                 //выполнение аннотации BEFORE для j-ого метода
+            for (int j = 0; j < afterListLength; j++) {                 //doing annotation "after' for j-method
                 collectionsForTesting.afterList.get(j).invoke(object1);
             }
         }
