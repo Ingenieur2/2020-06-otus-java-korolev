@@ -15,7 +15,7 @@ public class RunnerTestBAD {
         System.out.println("canonicalName: " + classString.getCanonicalName());
         System.out.println("--- all methods:");
 
-        Method[] methodsAll = classString.getDeclaredMethods();   //получаем объявленные методы
+        Method[] methodsAll = classString.getDeclaredMethods();   //getting Declared Methods
 
         int namesLength = methodsAll.length;
         String names[][] = new String[namesLength][10];         //создаем новый 2-х мерный массив для данных, где в 1-ом столбце название методов, в следующих - соответствующие методы
