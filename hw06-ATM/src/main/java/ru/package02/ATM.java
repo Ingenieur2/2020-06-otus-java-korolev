@@ -2,9 +2,9 @@ package ru.package02;
 
 import java.util.*;
 
-public class ATM implements FunctionInterface {
-    int count = 10;
-    List<Cell> atm = new ArrayList<>();
+public class ATM implements ATMInterface {
+    private int count = 10;
+    private List<Cell> atm = new ArrayList<>();
 
     ATM() {
         for (int i = 0; i < Nominals.values().length; i++) {
@@ -22,19 +22,17 @@ public class ATM implements FunctionInterface {
             param2 = sc1.nextInt();
             int takenSum = param2;
 
-            int[] givingSumm = new int[7];
-
+            int[] givingBanknotes = new int[Nominals.values().length];
             for (int i = 0; i < atm.size(); i++) {
-
-                givingSumm[i] = param2 / atm.get(i).nominal.value;
-                if (givingSumm[i] > atm.get(i).count) {
-                    givingSumm[i] = atm.get(i).count;
+                givingBanknotes[i] = param2 / atm.get(i).getNominal().getValue();
+                if (givingBanknotes[i] > atm.get(i).getValue()) {
+                    givingBanknotes[i] = atm.get(i).getValue();
                 }
-                param2 = param2 - (givingSumm[i] * atm.get(i).nominal.value);
+                param2 = param2 - (givingBanknotes[i] * atm.get(i).getNominal().getValue());
             }
             if (param2 == 0) {
-                for (int i = 0; i < givingSumm.length; i++) {
-                    atm.get(i).count = atm.get(i).count - givingSumm[i];
+                for (int i = 0; i < givingBanknotes.length; i++) {
+                    atm.get(i).decreaseCount(givingBanknotes[i]);
                 }
                 System.out.println("You took " + takenSum + ". Good luck!");
             } else {
@@ -54,9 +52,11 @@ public class ATM implements FunctionInterface {
             param2 = sc1.nextInt();
 
             for (int i = 0; i < atm.size(); i++) {
-                if (param2 == atm.get(i).nominal.value) {
+                if (param2 == atm.get(i).getNominal().getValue()) {
                     System.out.println("You added: " + param2);
-                    atm.get(i).count++;
+//                    atm.get(i).setCount(atm.get(i).getCount()+1);
+                    atm.get(i).increaseCount();
+                    //atm.get(i).count++;
                     i = atm.size();
                 }
             }
@@ -69,9 +69,9 @@ public class ATM implements FunctionInterface {
         System.out.println("You can get information");
         System.out.println("Current state: ");
         for (int i = 0; i < atm.size(); i++) {
-            System.out.print(atm.get(i).nominal + " - ");
-            System.out.println(atm.get(i).count);
-            SummaryCount = SummaryCount + atm.get(i).nominal.value * atm.get(i).count;
+            System.out.print(atm.get(i).getNominal() + " - ");
+            System.out.println(atm.get(i).getValue());
+            SummaryCount = SummaryCount + atm.get(i).getNominal().getValue() * atm.get(i).getValue();
         }
         System.out.println("Currently available is " + SummaryCount);
     }

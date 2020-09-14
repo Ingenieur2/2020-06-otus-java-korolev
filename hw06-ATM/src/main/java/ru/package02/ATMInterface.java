@@ -1,7 +1,6 @@
-package ru.package01;
+package ru.package02;
 
-public interface FunctionATMInterface {
-
+public interface ATMInterface {
     void addBanknote();
 
     void giveBanknotes();

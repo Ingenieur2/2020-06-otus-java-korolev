@@ -1,6 +1,6 @@
 package ru.package02;
 
-public enum Nominals {
+public enum Nominals implements GetValueInterface {
 
     nom5000(5000),
     nom2000(2000),
@@ -10,9 +10,14 @@ public enum Nominals {
     nom100(100),
     nom50(50);
 
-    int value;
+    private int value;
 
     Nominals(int value) {
         this.value = value;
+    }
+
+    @Override
+    public int getValue() {
+        return value;
     }
 }
