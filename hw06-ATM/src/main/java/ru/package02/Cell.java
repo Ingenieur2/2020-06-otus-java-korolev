@@ -20,6 +20,9 @@ public class Cell implements GetValueInterface {
 
     int decreaseCount(int givingBanknotes) {
         count = count - givingBanknotes;
+        if (count < 0) {
+            throw new RuntimeException("CalculationOfGivingBanknotesException");
+        }
         return count;
     }
 
