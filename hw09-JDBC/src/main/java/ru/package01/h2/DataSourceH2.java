@@ -1,16 +1,12 @@
 package ru.package01.h2;
 
+import javax.sql.DataSource;
 import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.logging.Logger;
-import javax.sql.DataSource;
 
-/**
- * @author sergey
- * created on 03.02.19.
- */
 public class DataSourceH2 implements DataSource {
     private static final String URL = "jdbc:h2:mem:test;DB_CLOSE_DELAY=-1";
 
@@ -34,7 +30,6 @@ public class DataSourceH2 implements DataSource {
     @Override
     public void setLogWriter(PrintWriter out) {
         throw new UnsupportedOperationException();
-
     }
 
     @Override

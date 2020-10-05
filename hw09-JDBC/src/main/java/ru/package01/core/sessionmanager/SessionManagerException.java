@@ -2,6 +2,7 @@ package ru.package01.core.sessionmanager;
 
 
 public class SessionManagerException extends RuntimeException {
+
     public SessionManagerException(String msg) {
         super(msg);
     }

@@ -1,18 +1,10 @@
 package ru.package01.jdbc;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Savepoint;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
 
-/**
- * @author sergey
- * created on 03.02.19.
- */
 public class DbExecutorImpl<T> implements DbExecutor<T> {
 
     @Override

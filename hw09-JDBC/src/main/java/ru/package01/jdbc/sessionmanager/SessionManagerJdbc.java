@@ -3,12 +3,11 @@ package ru.package01.jdbc.sessionmanager;
 import ru.package01.core.sessionmanager.SessionManager;
 import ru.package01.core.sessionmanager.SessionManagerException;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
-import javax.sql.DataSource;
 
 public class SessionManagerJdbc implements SessionManager {
-
     private static final int TIMEOUT_IN_SECONDS = 5;
     private final DataSource dataSource;
     private Connection connection;

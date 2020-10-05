@@ -8,8 +8,8 @@ import ru.package01.core.model.User;
 import java.util.Optional;
 
 public class DbServiceUserImpl implements DBServiceUser {
-    private static final Logger logger = LoggerFactory.getLogger(DbServiceUserImpl.class);
 
+    private static final Logger logger = LoggerFactory.getLogger(DbServiceUserImpl.class);
     private final UserDao userDao;
 
     public DbServiceUserImpl(UserDao userDao) {

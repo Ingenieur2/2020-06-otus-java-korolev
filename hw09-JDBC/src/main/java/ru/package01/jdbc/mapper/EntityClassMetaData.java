@@ -5,7 +5,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * "Разбирает" объект на составные части
+ * "Parsing" object into component parts
  * @param <T>
  */
 public interface EntityClassMetaData<T> {

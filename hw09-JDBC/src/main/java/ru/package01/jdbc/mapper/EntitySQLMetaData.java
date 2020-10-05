@@ -1,7 +1,7 @@
 package ru.package01.jdbc.mapper;
 
 /**
- * Создает SQL - запросы
+ * Creating SQL - queries
  */
 public interface EntitySQLMetaData {
     String getSelectAllSql();
