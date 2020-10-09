@@ -14,7 +14,7 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
     private final Constructor<T> constructor;
     private final Field idField;
     private final List<Field> allFieldList;
-    private final List<Field> FieldListWithoutId;
+    private final List<Field> fieldListWithoutId;
 
 
     public EntityClassMetaDataImpl(Class<T> classString) {
@@ -23,7 +23,7 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
         allFieldList = Arrays.asList(classString.getDeclaredFields());
         idField = getAnnotatedIdField(allFieldList);
 
-        FieldListWithoutId = Arrays.stream(classString.getDeclaredFields()).filter(x -> !x.equals(idField)).collect(Collectors.toList());
+        fieldListWithoutId = Arrays.stream(classString.getDeclaredFields()).filter(x -> !x.equals(idField)).collect(Collectors.toList());
 
         try {
             constructor = classString.getDeclaredConstructor();
@@ -54,7 +54,7 @@ public class EntityClassMetaDataImpl<T> implements EntityClassMetaData<T> {
 
     @Override
     public List<Field> getFieldsWithoutId() {
-        return FieldListWithoutId;
+        return fieldListWithoutId;
     }
 
     private Field getAnnotatedIdField(List<Field> fields) {

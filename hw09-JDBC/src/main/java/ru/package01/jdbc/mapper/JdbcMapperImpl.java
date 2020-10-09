@@ -103,11 +103,7 @@ public class JdbcMapperImpl<T> implements JdbcMapper<T> {
         try {
             var instance = entityClassMetaData.getConstructor().newInstance();
 
-            var idField = entityClassMetaData.getIdField();
-            idField.setAccessible(true);
-            idField.set(instance, rs.getObject(idField.getName()));
-
-            for (var field : entityClassMetaData.getFieldsWithoutId()) {
+            for (var field : entityClassMetaData.getAllFields()) {
                 field.setAccessible(true);
                 field.set(instance, rs.getObject(field.getName()));
             }
