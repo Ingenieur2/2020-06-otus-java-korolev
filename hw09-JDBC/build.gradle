@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
+
+group 'ru.package01'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.h2database:h2'
+    implementation 'ch.qos.logback:logback-classic'
+    implementation 'org.flywaydb:flyway-core'
+}
