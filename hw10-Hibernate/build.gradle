@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.package01'
+version 'unspecified'
+
+sourceCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_14
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("ch.qos.logback:logback-classic")
+    implementation("com.h2database:h2")
+    implementation("org.hibernate:hibernate-core")
+    implementation 'org.flywaydb:flyway-core'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
