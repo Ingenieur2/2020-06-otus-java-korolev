@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.package01'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("ch.qos.logback:logback-classic")
+    implementation("org.ehcache:ehcache")
+    implementation ('com.google.code.gson:gson:2.8.6')
+    implementation ('com.h2database:h2')
+    implementation ('org.flywaydb:flyway-core')
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+}
