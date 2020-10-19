@@ -99,7 +99,7 @@ public class JdbcMapperImpl<T> implements JdbcMapper<T> {
         return sessionManager.getCurrentSession().getConnection();
     }
 
-    private T createObjectFromResultSet(ResultSet rs){
+    private T createObjectFromResultSet(ResultSet rs) {
         try {
             var instance = entityClassMetaData.getConstructor().newInstance();
 

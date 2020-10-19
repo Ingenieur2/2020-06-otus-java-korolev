@@ -4,6 +4,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.package01.core.dao.UserDao;
 import ru.package01.core.model.User;
+import ru.package01.mycache.HwCache;
+import ru.package01.mycache.MyCache;
 
 import java.util.Optional;
 
@@ -11,6 +13,7 @@ public class DbServiceUserImpl implements DBServiceUser {
 
     private static final Logger logger = LoggerFactory.getLogger(DbServiceUserImpl.class);
     private final UserDao userDao;
+    HwCache<Long, User> cache = new MyCache<>();
 
     public DbServiceUserImpl(UserDao userDao) {
         this.userDao = userDao;
@@ -23,14 +26,15 @@ public class DbServiceUserImpl implements DBServiceUser {
             try {
                 var userId = userDao.insertUser(user);
                 sessionManager.commitSession();
-
                 logger.info("created user: {}", userId);
+                System.out.println("cache is: " + cache);
                 return userId;
             } catch (Exception e) {
                 sessionManager.rollbackSession();
                 throw new DbServiceException(e);
             }
         }
+
     }
 
     @Override

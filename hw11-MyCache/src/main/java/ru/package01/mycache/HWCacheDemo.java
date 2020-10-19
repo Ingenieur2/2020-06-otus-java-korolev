@@ -25,14 +25,15 @@ public class HWCacheDemo {
 
         cache.addListener(listener);
         Gson gson = new Gson();
-        for (int i = 1; i < 11; i++) {
+        for (int i = 1; i <= 15; i++) {
             cache.put(i, (i * i));
         }
         String json = gson.toJson(cache);
         System.out.println(json);
 
         logger.info("getValue:{}", cache.get(3));
-        cache.remove(1);
+        cache.remove(11);
+        cache.remove(13);
         cache.removeListener(listener);
 
         json = gson.toJson(cache);
