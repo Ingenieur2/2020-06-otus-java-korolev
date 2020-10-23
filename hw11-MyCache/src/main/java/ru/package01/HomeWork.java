@@ -1,5 +1,6 @@
 package ru.package01;
 
+import com.google.gson.Gson;
 import org.flywaydb.core.Flyway;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +14,6 @@ import ru.package01.jdbc.mapper.EntityClassMetaDataImpl;
 import ru.package01.jdbc.mapper.EntitySQLMetaDataImpl;
 import ru.package01.jdbc.mapper.JdbcMapperImpl;
 import ru.package01.jdbc.sessionmanager.SessionManagerJdbc;
-import ru.package01.mycache.HwCache;
 import ru.package01.mycache.HwListener;
 import ru.package01.mycache.MyCache;
 
@@ -25,7 +25,7 @@ public class HomeWork {
     private static final Logger logger = LoggerFactory.getLogger(HomeWork.class);
 
     public static void main(String[] args) {
-        HwCache<Long, User> myCache = new MyCache<>();
+        MyCache<Long, User> myCache = new MyCache<>();
 
         // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
         HwListener<Long, User> listener = new HwListener<Long, User>() {
@@ -35,6 +35,11 @@ public class HomeWork {
             }
         };
         myCache.addListener(listener);
+        Gson gson = new Gson();
+        String json = gson.toJson(myCache);
+
+        System.out.println("current state is:  " + json);
+
 
         var dataSource = new DataSourceH2();
         flywayMigrations(dataSource);
@@ -42,16 +47,14 @@ public class HomeWork {
 
 // Work with user
         DbExecutorImpl<User> dbExecutor = new DbExecutorImpl<>();
-
         var entityClassMetaData = new EntityClassMetaDataImpl<User>(User.class);
         var entitySQLMetaData = new EntitySQLMetaDataImpl<User>(entityClassMetaData);
         var jdbcMapperUser = new JdbcMapperImpl<User>(sessionManager, dbExecutor, entitySQLMetaData, entityClassMetaData);
 
         UserDao userDao = new UserDaoJdbcMapper(jdbcMapperUser);
-        var dbServiceUser = new DbServiceUserImpl(userDao);
-        for (int i = 1; i < 5; i++) {
-            var id = dbServiceUser.saveUser(new User("Tom", 20 + i));
-
+        var dbServiceUser = new DbServiceUserImpl(userDao, myCache, listener);
+        for (int i = 1; i <= 7; i++) {
+            long id = dbServiceUser.saveUser(new User("Tom", 20 + i));
             Optional<User> user = dbServiceUser.getUser(id);
 
             user.ifPresentOrElse(
@@ -60,7 +63,11 @@ public class HomeWork {
             );
             System.out.println("================================");
         }
-        for (long id = 1; id < 5; id++) {
+
+        json = gson.toJson(myCache);
+        System.out.println("current state after FILLING is:  " + json);
+
+        for (long id = 7; id > 1; id--) { //if read from 1 to 7 -> cache REwriting and there is no element already
             Optional<User> user = dbServiceUser.getUser(id);
 
             user.ifPresentOrElse(
@@ -69,7 +76,14 @@ public class HomeWork {
             );
             System.out.println("--------------------------------");
         }
+
+        json = gson.toJson(myCache);
+        System.out.println("current state before DELETE is:  " + json);
+
         myCache.removeListener(listener);
+
+        json = gson.toJson(myCache);
+        System.out.println("current state after DELETE is:  " + json);
     }
 
     private static void flywayMigrations(DataSource dataSource) {

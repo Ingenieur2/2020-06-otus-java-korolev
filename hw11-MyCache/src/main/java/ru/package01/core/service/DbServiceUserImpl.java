@@ -1,22 +1,28 @@
 package ru.package01.core.service;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ru.package01.core.dao.UserDao;
 import ru.package01.core.model.User;
-import ru.package01.mycache.HwCache;
+import ru.package01.mycache.HwListener;
 import ru.package01.mycache.MyCache;
 
 import java.util.*;
+
 
 public class DbServiceUserImpl implements DBServiceUser {
 
     private static final Logger logger = LoggerFactory.getLogger(DbServiceUserImpl.class);
     private final UserDao userDao;
-    HwCache<Long, User> myCache = new MyCache<>();
+    MyCache<Long, User> myCache;
+    HwListener<Long, User> listener;
 
-    public DbServiceUserImpl(UserDao userDao) {
+
+    public DbServiceUserImpl(UserDao userDao, MyCache<Long, User> myCache, HwListener<Long, User> listener) {
         this.userDao = userDao;
+        this.myCache = myCache;
+        this.listener = listener;
     }
 
     @Override
@@ -38,6 +44,7 @@ public class DbServiceUserImpl implements DBServiceUser {
 
     @Override
     public Optional<User> getUser(long id) {
+        Gson gson = new Gson();
 
         long beginTime = System.currentTimeMillis();
         System.out.println("ID = " + id);
@@ -60,8 +67,13 @@ public class DbServiceUserImpl implements DBServiceUser {
                     Optional<User> userOptional = userDao.findById(id);
                     logger.info("user: {}", userOptional.orElse(null));
                     System.out.println("time to get from DataBase:" + (System.currentTimeMillis() - beginTime) + " millis");
-
-                    myCache.put(id, userOptional.get());
+                    try {
+                        myCache.put(id, userOptional.get());
+                        String json = gson.toJson(myCache);
+                        System.out.println("current state after adding element is:  " + json);
+                    } catch (Exception ex) {
+                        myCache.put(id, null);
+                    }
                     return userOptional;
                 } catch (Exception e) {
                     logger.error(e.getMessage(), e);

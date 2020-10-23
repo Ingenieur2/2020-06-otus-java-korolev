@@ -8,11 +8,11 @@ import org.slf4j.LoggerFactory;
 public class HWCacheDemo {
     private static final Logger logger = LoggerFactory.getLogger(HWCacheDemo.class);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         new HWCacheDemo().demo();
     }
 
-    private void demo() {
+    private void demo() throws InterruptedException {
         HwCache<Integer, Integer> cache = new MyCache<>();
 
         // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
@@ -29,14 +29,19 @@ public class HWCacheDemo {
             cache.put(i, (i * i));
         }
         String json = gson.toJson(cache);
-        System.out.println(json);
+        System.out.println("current state is:  " + json);
 
         logger.info("getValue:{}", cache.get(3));
+
         cache.remove(11);
         cache.remove(13);
-        cache.removeListener(listener);
-
         json = gson.toJson(cache);
-        System.out.println(json);
+        System.out.println("current state is:  " + json);
+
+        cache.removeListener(listener);
+        Thread.sleep(1000);
+        System.out.print("clearing cache.......");
+        json = gson.toJson(cache);
+        System.out.println("current state is:  " + json);
     }
 }
