@@ -8,10 +8,9 @@ import java.util.*;
 
 public class MyCache<K, V> implements HwCache<K, V> {
     //Надо реализовать эти методы
-    private static final int MAX_MY_CACHE_SIZE = 5;
+    private static final long MAX_MY_CACHE_SIZE = 5;
     private static final Logger logger = LoggerFactory.getLogger(MyCache.class);
     private final Map<K, V> myCache = new WeakHashMap<K, V>();
-    private final LinkedList<K> listOfKeys = new LinkedList<>();
     HwListener<K, V> listener;
     private final List<HwListener<K, V>> listenersList = new ArrayList<>();
 
@@ -25,12 +24,9 @@ public class MyCache<K, V> implements HwCache<K, V> {
         addListener(listener);
         if (myCache.size() < MAX_MY_CACHE_SIZE) {
             myCache.put(key, value);
-            listOfKeys.addLast(key);
         } else {
             myCache.put(key, value);
-            myCache.remove(listOfKeys.get(0));
-            listOfKeys.removeFirst();
-            listOfKeys.add(key);
+            myCache.remove((int) key - MAX_MY_CACHE_SIZE);
         }
         notify(key, value, "put");
     }
@@ -39,7 +35,6 @@ public class MyCache<K, V> implements HwCache<K, V> {
     public void remove(K key) {
         notify(key, myCache.get(key), "remove");
         myCache.remove(key);
-        listOfKeys.remove(key);
         listenersList.remove(key);
     }
 
@@ -57,7 +52,6 @@ public class MyCache<K, V> implements HwCache<K, V> {
     @Override
     public void removeListener(HwListener<K, V> listener) {
         myCache.clear();
-        listOfKeys.clear();
         listenersList.clear();
     }
 
