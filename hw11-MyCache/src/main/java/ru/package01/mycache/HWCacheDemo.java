@@ -13,35 +13,33 @@ public class HWCacheDemo {
     }
 
     private void demo() throws InterruptedException {
-        HwCache<Integer, Integer> cache = new MyCache<>();
+        HwCache<String, String> cache = new MyCache<>();
 
-        // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
-        HwListener<Integer, Integer> listener = new HwListener<Integer, Integer>() {
-            @Override
-            public void notify(Integer key, Integer value, String action) {
-                logger.info("key:{}, value:{}, action: {}", key, value, action);
-            }
-        };
-
-        cache.addListener(listener);
+        cache.addListener();
         Gson gson = new Gson();
         for (int i = 1; i <= 15; i++) {
-            cache.put(i, (i * i));
+            cache.put(String.valueOf(i), String.valueOf(i * i));
         }
         String json = gson.toJson(cache);
         System.out.println("current state is:  " + json);
 
-        logger.info("getValue:{}", cache.get(3));
+        logger.info("getValue:{}", cache.get(String.valueOf(3)));
 
-        cache.remove(11);
-        cache.remove(13);
+        cache.remove(String.valueOf(11));
+        cache.remove(String.valueOf(13));
         json = gson.toJson(cache);
-        System.out.println("current state is:  " + json);
+        System.out.println("state after deleting elements is:  " + json);
 
-        cache.removeListener(listener);
-        Thread.sleep(1000);
+        cache.removeListener();
         System.out.print("clearing cache.......");
         json = gson.toJson(cache);
         System.out.println("current state is:  " + json);
+
+        cache.addListener();
+        for (int i = 20; i <= 21; i++) {
+            cache.put(String.valueOf(i), String.valueOf(i * i));
+        }
+        json = gson.toJson(cache);
+        System.out.println("NEW state is:  " + json);
     }
 }

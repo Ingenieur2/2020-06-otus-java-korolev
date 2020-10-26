@@ -7,13 +7,11 @@ import java.util.*;
 
 
 public class MyCache<K, V> implements HwCache<K, V> {
-    //Надо реализовать эти методы
+
     private static final long MAX_MY_CACHE_SIZE = 5;
     private static final Logger logger = LoggerFactory.getLogger(MyCache.class);
     private final Map<K, V> myCache = new WeakHashMap<K, V>();
-    HwListener<K, V> listener;
-    private final List<HwListener<K, V>> listenersList = new ArrayList<>();
-
+    LinkedList<K> referenceList = new LinkedList<>();
 
     public MyCache() {
 
@@ -21,21 +19,26 @@ public class MyCache<K, V> implements HwCache<K, V> {
 
     @Override
     public void put(K key, V value) {
-        addListener(listener);
-        if (myCache.size() < MAX_MY_CACHE_SIZE) {
-            myCache.put(key, value);
-        } else {
-            myCache.put(key, value);
-            myCache.remove((int) key - MAX_MY_CACHE_SIZE);
+        if (referenceList != null) {
+            referenceList.addLast(key);
+            if (myCache.size() < MAX_MY_CACHE_SIZE) {
+                myCache.put(key, value);
+            } else {
+                myCache.put(key, value);
+                myCache.remove(referenceList.getFirst());
+                referenceList.removeFirst();
+            }
+            notify(key, value, "put");
         }
-        notify(key, value, "put");
     }
 
     @Override
     public void remove(K key) {
-        notify(key, myCache.get(key), "remove");
-        myCache.remove(key);
-        listenersList.remove(key);
+        if (myCache.containsKey(key)) {
+            notify(key, myCache.get(key), "remove");
+            myCache.remove(key);
+            referenceList.remove(key);
+        }
     }
 
     @Override
@@ -45,14 +48,17 @@ public class MyCache<K, V> implements HwCache<K, V> {
     }
 
     @Override
-    public void addListener(HwListener<K, V> listener) {
-        listenersList.add(listener);
+    public void addListener() {
+        if (referenceList == null) {
+            referenceList = new LinkedList<>();
+        }
     }
 
     @Override
-    public void removeListener(HwListener<K, V> listener) {
-        myCache.clear();
-        listenersList.clear();
+    public void removeListener() throws InterruptedException {
+        referenceList.clear();
+        System.gc();
+        Thread.sleep(2000);
     }
 
     public void notify(K key, V value, String action) {

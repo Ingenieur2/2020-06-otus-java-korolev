@@ -14,7 +14,6 @@ import ru.package01.jdbc.mapper.EntityClassMetaDataImpl;
 import ru.package01.jdbc.mapper.EntitySQLMetaDataImpl;
 import ru.package01.jdbc.mapper.JdbcMapperImpl;
 import ru.package01.jdbc.sessionmanager.SessionManagerJdbc;
-import ru.package01.mycache.HwListener;
 import ru.package01.mycache.MyCache;
 
 import javax.sql.DataSource;
@@ -24,22 +23,13 @@ import java.util.Optional;
 public class HomeWork {
     private static final Logger logger = LoggerFactory.getLogger(HomeWork.class);
 
-    public static void main(String[] args) {
-        MyCache<Long, User> myCache = new MyCache<>();
+    public static void main(String[] args) throws InterruptedException {
+        MyCache<String, User> myCache = new MyCache<>();
 
-        // пример, когда Idea предлагает упростить код, при этом может появиться "спец"-эффект
-        HwListener<Long, User> listener = new HwListener<Long, User>() {
-            @Override
-            public void notify(Long key, User value, String action) {
-                logger.info("key:{}, value:{}, action: {}", key, value, action);
-            }
-        };
-        myCache.addListener(listener);
+        myCache.addListener();
         Gson gson = new Gson();
         String json = gson.toJson(myCache);
-
         System.out.println("current state is:  " + json);
-
 
         var dataSource = new DataSourceH2();
         flywayMigrations(dataSource);
@@ -52,7 +42,7 @@ public class HomeWork {
         var jdbcMapperUser = new JdbcMapperImpl<User>(sessionManager, dbExecutor, entitySQLMetaData, entityClassMetaData);
 
         UserDao userDao = new UserDaoJdbcMapper(jdbcMapperUser);
-        var dbServiceUser = new DbServiceUserImpl(userDao, myCache, listener);
+        var dbServiceUser = new DbServiceUserImpl(userDao, myCache);
         for (int i = 1; i <= 7; i++) {
             long id = dbServiceUser.saveUser(new User("Tom", 20 + i));
             Optional<User> user = dbServiceUser.getUser(id);
@@ -80,7 +70,7 @@ public class HomeWork {
         json = gson.toJson(myCache);
         System.out.println("current state before DELETE is:  " + json);
 
-        myCache.removeListener(listener);
+        myCache.removeListener();
 
         json = gson.toJson(myCache);
         System.out.println("current state after DELETE is:  " + json);

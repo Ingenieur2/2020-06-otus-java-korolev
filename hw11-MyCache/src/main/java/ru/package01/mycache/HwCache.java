@@ -9,7 +9,7 @@ public interface HwCache<K, V> {
 
     V get(K key);
 
-    void addListener(HwListener<K, V> listener);
+    void addListener();
 
-    void removeListener(HwListener<K, V> listener);
+    void removeListener() throws InterruptedException;
 }
