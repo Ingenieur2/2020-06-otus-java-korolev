@@ -41,7 +41,7 @@ public class DbServiceUserImpl implements DBServiceUser {
     @Override
     public Optional<User> getUser(long id) {
         Gson gson = new Gson();
-        String idToString = id + "";
+        String idToString = String.valueOf(id);
 
         long beginTime = System.currentTimeMillis();
         System.out.println("ID = " + id);
@@ -64,12 +64,10 @@ public class DbServiceUserImpl implements DBServiceUser {
                     Optional<User> userOptional = userDao.findById(id);
                     logger.info("user: {}", userOptional.orElse(null));
                     System.out.println("time to get from DataBase:" + (System.currentTimeMillis() - beginTime) + " millis");
-                    try {
+                    if (userOptional.isPresent()) {
                         myCache.put(idToString, userOptional.get());
                         String json = gson.toJson(myCache);
                         System.out.println("current state after adding element is:  " + json);
-                    } catch (Exception ex) {
-                        myCache.put(idToString, null);
                     }
                     return userOptional;
                 } catch (Exception e) {

@@ -11,7 +11,7 @@ public class MyCache<K, V> implements HwCache<K, V> {
     private static final long MAX_MY_CACHE_SIZE = 5;
     private static final Logger logger = LoggerFactory.getLogger(MyCache.class);
     private final Map<K, V> myCache = new WeakHashMap<K, V>();
-    LinkedList<K> referenceList = new LinkedList<>();
+    LinkedList<K> referenceList;
 
     public MyCache() {
 
@@ -56,7 +56,7 @@ public class MyCache<K, V> implements HwCache<K, V> {
 
     @Override
     public void removeListener() throws InterruptedException {
-        referenceList.clear();
+        referenceList = null;
         System.gc();
         Thread.sleep(2000);
     }
