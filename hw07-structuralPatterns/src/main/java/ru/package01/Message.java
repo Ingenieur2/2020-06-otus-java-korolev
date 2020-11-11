@@ -259,7 +259,7 @@ public class Message implements Cloneable {
     public Object clone() {
         Gson gson = new Gson();
         String json = gson.toJson(this);
-        Object ClonedObject = gson.fromJson(json, Message.class);
-        return ClonedObject;
+        Object clonedObject = gson.fromJson(json, Message.class);
+        return clonedObject;
     }
 }
