@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import java.time.LocalDateTime;
 
-public class ProcessorThrow implements Processor {
+public class ProcessorThrow implements Processor, DateTimeProvider {
     private final Processor processor;
     private static final Logger logger = LoggerFactory.getLogger(ProcessorThrow.class);
 
@@ -26,4 +26,8 @@ public class ProcessorThrow implements Processor {
         return processor.process(message);
     }
 
+    @Override
+    public LocalDateTime now() {
+        return LocalDateTime.now();
+    }
 }

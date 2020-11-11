@@ -1,5 +1,7 @@
 package ru.package01;
 
+import com.google.gson.Gson;
+
 import java.util.Objects;
 
 public class Message implements Cloneable {
@@ -254,7 +256,10 @@ public class Message implements Cloneable {
         }
     }
 
-    public Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Object clone() {
+        Gson gson = new Gson();
+        String json = gson.toJson(this);
+        Object ClonedObject = gson.fromJson(json, Message.class);
+        return ClonedObject;
     }
 }
