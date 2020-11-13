@@ -47,7 +47,7 @@ public class UsersWebServerWithBasicSecurity extends UsersWebServerSimple {
         });
 
         ConstraintSecurityHandler security = new ConstraintSecurityHandler();
-        //как декодировать строку с юзером:паролем https://www.base64decode.org/
+
         security.setAuthenticator(new BasicAuthenticator());
 
         security.setLoginService(loginService);
