@@ -14,50 +14,42 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
     private final List<Object> appComponents = new ArrayList<>();
     private final Map<String, Object> appComponentsByName = new HashMap<>();
 
-    public AppComponentsContainerImpl(Class<?> initialConfigClass) throws NoSuchMethodException {
+    public AppComponentsContainerImpl(Class<?> initialConfigClass) throws NoSuchMethodException, IllegalAccessException, InstantiationException, InvocationTargetException {
         processConfig(initialConfigClass);
     }
 
-    private void processConfig(Class<?> configClass) throws NoSuchMethodException {
+    private void processConfig(Class<?> configClass) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         checkConfigClass(configClass);
 
         Method[] methods = configClass.getDeclaredMethods();
         List<Method> methodsInAppConfig = new ArrayList<>();
 
         for (int i = 0; i < methods.length; i++) {
-            if (configClass.getMethod(methods[i].getName(), methods[i].getParameterTypes()).isAnnotationPresent(AppComponent.class)) {
+            if (methods[i].isAnnotationPresent(AppComponent.class)) {
                 methodsInAppConfig.add(methods[i]);
             }
         }
-
         methodsInAppConfig.sort(Comparator.comparing(method -> method.getAnnotation(AppComponent.class).order()));
 
         for (int i = 0; i < methodsInAppConfig.size(); i++) {
             Object[] arg = getObjectToParameters(methodsInAppConfig.get(i).getParameters());
-            try {
                 Object appComponent = methodsInAppConfig.get(i).invoke(configClass.getDeclaredConstructor().newInstance(), arg);
                 appComponents.add(appComponent);
                 appComponentsByName.put(methodsInAppConfig.get(i).getAnnotation(AppComponent.class).name(), appComponent);
-            } catch (IllegalAccessException | InvocationTargetException | InstantiationException | NoSuchMethodException e) {
-                e.printStackTrace();
-            }
         }
     }
 
-    private Object[] getObjectToParameters(Parameter[] methodParameters) {
+    private Object[] getObjectToParameters(Parameter[] methodParameters) throws NullPointerException {
         List<Object> arg = new ArrayList<>();
         for (int i = 0; i < methodParameters.length; i++) {
-            Optional<Object> objectInComponent = getObjectFromComponent(methodParameters[i].getType());
-            objectInComponent.ifPresent(arg::add);
+            arg.add(getObjectFromComponent(methodParameters[i].getType()).get());
         }
         return arg.toArray();
     }
 
-    private Optional<Object> getObjectFromComponent(Class<?> classString) {
+    private Optional<Object> getObjectFromComponent(Class<?> clazz) {
         return appComponents.stream()
-                .filter(obj -> obj.getClass().equals(classString)
-                        || (classString.isInterface()
-                        && classString.isAssignableFrom(obj.getClass())))
+                .filter(obj -> clazz.isAssignableFrom(obj.getClass()))
                 .findFirst();
     }
 
@@ -74,11 +66,14 @@ public class AppComponentsContainerImpl implements AppComponentsContainer {
                 return (C) appComponents.get(i);
             }
         }
-        return null;
+        throw new RuntimeException(String.format("Error of getting AppComponent from Class: %s", componentClass));
     }
 
     @Override
     public <C> C getAppComponent(String componentName) {
-        return (C) Optional.ofNullable(appComponentsByName.get(componentName)).get();
+        if (appComponentsByName.get(componentName) == null) {
+            throw new RuntimeException(String.format("Error of getting AppComponent from String: %s", componentName));
+        }
+        return (C) appComponentsByName.get(componentName);
     }
 }
