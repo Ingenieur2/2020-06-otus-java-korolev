@@ -24,14 +24,13 @@ public class DemoSequenceOfNumbers {
             Thread currentThread = new Thread(() -> {
                 sequence.action(threadsNameList.get(finalJ));
             });
-            threadsList.add(currentThread);
             currentThread.start();
         }
     }
 
     private synchronized void action(String message) {
         int i = 1;
-        int k = 0; // number of Thread
+        int currentThreadNumber = 0;
         int switchPoint1 = 1;
         int switchPoint2 = 10;
         int delta = 1;
@@ -39,16 +38,16 @@ public class DemoSequenceOfNumbers {
         while (i <= switchPoint2) {
             try {
                 sleep();
-                while (threadsNameList.get(k).equals(message)) {
+                while (threadsNameList.get(currentThreadNumber).equals(message)) {
                     this.wait();
                 }
-                message = threadsNameList.get(k);
-                k++;
+                message = threadsNameList.get(currentThreadNumber);
+                currentThreadNumber++;
                 System.out.println(message + ": i = " + i);
-                while (k == threadsNameList.size()) {
-                    k = 0;
+                while (currentThreadNumber == threadsNameList.size()) {
+                    currentThreadNumber = 0;
                     i = i + delta;
-                    if ((i == switchPoint1) | (i == switchPoint2)) {
+                    if ((i == switchPoint1) || (i == switchPoint2)) {
                         delta = delta * (-1);
                     }
                 }
