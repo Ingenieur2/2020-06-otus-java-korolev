@@ -1,0 +1,95 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Страница администратора</title>
+    <script>
+        function loadAllUsers() {
+            fetch('api/user/')
+                .then(response => response.json())
+                .then(users => {
+                    let tableBody = usersTable.getElementsByTagName('tbody')[0];
+                    let rows = '';
+                    users.forEach(user => {
+                        rows += '<tr>' + '<td>' + user.id + '</td>'
+                            + '<td>' + user.name + '</td>'
+                            + '<td>' + user.age + '</td>'
+                            + '<td>' + user.login + '</td>'
+                            + '<td>' + user.password + '</td>' + '</tr>';
+                    });
+                    tableBody.innerHTML = rows;
+                });
+        }
+
+        function createNewUser(form) {
+            fetch('api/user/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
+                body: new URLSearchParams(new FormData(form))
+            }).then(res => {
+                if (res.status >= 500) {
+                    alert('error while creating user');
+                    console.log(res);
+                } else {
+                    loadAllUsers();
+                }
+            })
+                .catch(res => {
+                    alert('Error');
+                    console.log(res)
+                });
+        }
+    </script>
+</head>
+<body>
+<br/>
+<h1>Create new user:</h1>
+
+<form onsubmit="createNewUser(this); return false;"   autocomplete="off">
+    <label>
+        Name <br/>
+        <input type="text" name="name" placeholder="Name must be unique">
+    </label>
+    <br/>
+    <label>
+        Age <br/>
+        <input type="text" name="age" placeholder="Age must be integer">
+    </label>
+    <br/>
+    <br/>
+    <label>
+        Login <br/>
+        <input type="text" name="login" placeholder="Login must be unique">
+    </label>
+    <br/>
+    <label>
+        Password <br/>
+        <input type="password" name="password">
+    </label>
+
+    <br/>
+    <input type="submit" value="Создать">
+    <br/>
+    <br/>
+    <a th:href="@{/}">Start page</a>
+</form>
+
+<h1>List of users:</h1>
+<button onclick="loadAllUsers()" style="margin: 0 0 10px 0;">Load</button>
+<table id="usersTable" style="width: 500px; border: solid 2px;">
+    <thead>
+    <tr>
+        <td style="width: 50px">Id</td>
+        <td style="width: 150px">Имя</td>
+        <td style="width: 100px">Возраст</td>
+        <td style="width: 100px">Логин</td>
+        <td style="width: 100px">Пароль</td>
+    </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
+</body>
+</html>
