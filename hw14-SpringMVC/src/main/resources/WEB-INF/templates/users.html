@@ -17,11 +17,12 @@
                             + '<td>' + user.password + '</td>' + '</tr>';
                     });
                     tableBody.innerHTML = rows;
+
                 });
         }
 
         function createNewUser(form) {
-            fetch('api/user/', {
+            fetch('users/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -46,7 +47,7 @@
 <br/>
 <h1>Create new user:</h1>
 
-<form onsubmit="createNewUser(this); return false;"   autocomplete="off">
+<form onsubmit="createNewUser(this); return false;" autocomplete="off">
     <label>
         Name <br/>
         <input type="text" name="name" placeholder="Name must be unique">

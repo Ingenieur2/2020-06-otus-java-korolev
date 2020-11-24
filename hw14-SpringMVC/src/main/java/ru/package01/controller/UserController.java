@@ -22,7 +22,6 @@ public class UserController {
         return "index.html";
     }
 
-
     @GetMapping({"/users"})
     public String userListView(Model model) {
         List<User> users = dbServiceUser.getAll();
@@ -36,4 +35,3 @@ public class UserController {
         return new RedirectView("/", true);
     }
 }
-

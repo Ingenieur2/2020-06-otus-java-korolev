@@ -3,11 +3,11 @@ package ru.package01.hibernate.sessionmanager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import ru.package01.core.sessionmanager.SessionManager;
 import ru.package01.core.sessionmanager.SessionManagerException;
 
-@Service
+@Component
 public class SessionManagerHibernate implements SessionManager {
 
     private DatabaseSessionHibernate databaseSession;

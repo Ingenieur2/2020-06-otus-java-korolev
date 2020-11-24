@@ -27,20 +27,12 @@ import ru.package01.hibernate.HibernateUtils;
 public class WebConfig implements WebMvcConfigurer {
 
     private final ApplicationContext applicationContext;
-    public static final String HIBERNATE_CFG_FILE = "WEB-INF/hibernate.cfg.xml";
 
 
     public WebConfig(ApplicationContext applicationContext) {
-        MigrationsExecutor migrationsExecutor = new MigrationsExecutorFlyway(HIBERNATE_CFG_FILE);
-        migrationsExecutor.executeMigrations();
         this.applicationContext = applicationContext;
     }
 
-    @Bean
-    public SessionFactory getSessionFactory() {
-        return HibernateUtils.buildSessionFactory(HIBERNATE_CFG_FILE,
-                User.class, AddressDataSet.class, PhoneDataSet.class);
-    }
 
     @Bean
     public SpringResourceTemplateResolver templateResolver() {
