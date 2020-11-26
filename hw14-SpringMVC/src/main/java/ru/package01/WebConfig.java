@@ -1,6 +1,6 @@
 package ru.package01;
 
-import org.hibernate.SessionFactory;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -13,12 +13,6 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring5.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
-import ru.package01.core.model.AddressDataSet;
-import ru.package01.core.model.PhoneDataSet;
-import ru.package01.core.model.User;
-import ru.package01.flyway.MigrationsExecutor;
-import ru.package01.flyway.MigrationsExecutorFlyway;
-import ru.package01.hibernate.HibernateUtils;
 
 
 @Configuration
