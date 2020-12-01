@@ -3,9 +3,8 @@ package ru.package01;
 import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import ru.package01.core.model.AddressDataSet;
-import ru.package01.core.model.PhoneDataSet;
 import ru.package01.core.model.User;
 import ru.package01.flyway.MigrationsExecutor;
 import ru.package01.flyway.MigrationsExecutorFlyway;
@@ -22,8 +21,8 @@ public class HibernateConfig implements WebMvcConfigurer {
     }
 
     @Bean
+    @DependsOn("migrationsExecutor")
     public SessionFactory sessionFactory() {
-        return HibernateUtils.buildSessionFactory(HIBERNATE_CFG_FILE,
-                User.class, AddressDataSet.class, PhoneDataSet.class);
+        return HibernateUtils.buildSessionFactory(HIBERNATE_CFG_FILE, User.class);
     }
 }

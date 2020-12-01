@@ -17,29 +17,22 @@
                             + '<td>' + user.password + '</td>' + '</tr>';
                     });
                     tableBody.innerHTML = rows;
-
                 });
         }
 
         function createNewUser(form) {
+            let object = {};
+            let formData = new FormData(form);
+            formData.forEach((value, key) => object[key] = value);
+
             fetch('api/user/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json;charset=utf-8'
                 },
-                body: new URLSearchParams(new FormData(form))
-            }).then(res => {
-                if (res.status >= 500) {
-                    alert('error while creating user');
-                    console.log(res);
-                } else {
-                    loadAllUsers();
-                }
-            })
-                .catch(res => {
-                    alert('Error');
-                    console.log(res)
-                });
+                body: JSON.stringify(object)
+
+            }).then(() => loadAllUsers());
         }
     </script>
 </head>
@@ -47,31 +40,22 @@
 <br/>
 <h1>Create new user:</h1>
 
-<form onsubmit="createNewUser(this); return false;" autocomplete="off">
-    <label>
-        Name <br/>
-        <input type="text" name="name" placeholder="Name must be unique">
-    </label>
-    <br/>
-    <label>
-        Age <br/>
-        <input type="text" name="age" placeholder="Age must be integer">
-    </label>
-    <br/>
-    <br/>
-    <label>
-        Login <br/>
-        <input type="text" name="login" placeholder="Login must be unique">
-    </label>
-    <br/>
-    <label>
-        Password <br/>
-        <input type="password" name="password">
-    </label>
-
+<form onsubmit="createNewUser(this); return false;" action="#" autocomplete="off">
+    <table id="userData" style="width: 300px; border: solid 0px;">
+        <td><label>Name </label></td>
+        <td><input type="text" name="name" placeholder="Name must be unique"></td>
+        <tr></tr>
+        <td><label>Age </label></td>
+        <td><input type="text" name="age" placeholder="Age must be integer"></td>
+        <tr></tr>
+        <td><label>Login </label></td>
+        <td><input type="text" name="login" placeholder="Login must be unique"></td>
+        <tr></tr>
+        <td><label>Password </label></td>
+        <td><input type="password" name="password"></td>
+    </table>
     <br/>
     <input type="submit" value="Создать">
-    <br/>
     <br/>
     <a th:href="@{/}">Start page</a>
 </form>
