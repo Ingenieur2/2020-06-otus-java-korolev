@@ -31,7 +31,6 @@ public class UserController {
 
     @PostMapping({"/users"})
     public RedirectView userSave(@ModelAttribute User user) {
-        dbServiceUser.saveUser(user);
         return new RedirectView("/", true);
     }
 }
