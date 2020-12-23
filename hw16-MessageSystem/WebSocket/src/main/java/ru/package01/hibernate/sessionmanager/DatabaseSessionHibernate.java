@@ -4,7 +4,6 @@ import org.hibernate.Session;
 import org.hibernate.Transaction;
 import ru.package01.core.sessionmanager.DatabaseSession;
 
-
 public class DatabaseSessionHibernate implements DatabaseSession {
     private final Session session;
     private final Transaction transaction;

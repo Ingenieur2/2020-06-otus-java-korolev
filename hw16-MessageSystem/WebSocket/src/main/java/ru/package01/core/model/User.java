@@ -1,10 +1,12 @@
 package ru.package01.core.model;
 
+import ru.package01.messagesystem.client.ResultDataType;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends ResultDataType {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)

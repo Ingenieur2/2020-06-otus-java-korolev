@@ -10,7 +10,6 @@ version 'unspecified'
 repositories {
     mavenCentral()
 }
-
 dependencies {
     implementation("ch.qos.logback:logback-classic")
 

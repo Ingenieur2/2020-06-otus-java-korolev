@@ -1,11 +1,11 @@
 package ru.package01.hibernate.repository;
 
-
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+
 import ru.package01.core.dao.UserDao;
 import ru.package01.core.dao.UserDaoException;
 
@@ -17,6 +17,7 @@ import ru.package01.hibernate.sessionmanager.SessionManagerHibernate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 
 @Repository
 public class UserDaoHibernate implements UserDao {

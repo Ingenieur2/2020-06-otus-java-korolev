@@ -1,7 +1,6 @@
 package ru.package01.core.sessionmanager;
 
 public interface SessionManager extends AutoCloseable {
-
     void beginSession();
 
     void commitSession();

@@ -14,9 +14,6 @@ public class SessionManagerHibernate implements SessionManager {
     private final SessionFactory sessionFactory;
 
     public SessionManagerHibernate(SessionFactory sessionFactory) {
-        if (sessionFactory == null) {
-            throw new SessionManagerException("SessionFactory is null");
-        }
         this.sessionFactory = sessionFactory;
     }
 
