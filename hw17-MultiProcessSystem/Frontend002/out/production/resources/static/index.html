@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Страница администратора</title>
+
+    <script src="/webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+    <script src="/app.js"></script>
+</head>
+
+<body>
+<br/>
+<div>
+    <button id="connect" onclick="connect()">Connect</button>
+    <button id="disconnect" onclick="disconnect()" disabled="disabled">Disconnect</button>
+</div>
+<br/>
+<form id="create-form" accept-charset="utf-8">
+    <h1>Create new user:</h1>
+    <table style="width: 300px; border: solid 0px;">
+        <td><label>Name </label></td>
+        <td><input type="text" id="userName" value="" placeholder="Name must be unique"></td>
+        <tr></tr>
+        <td><label>Age </label></td>
+        <td><input type="text" id="userAge" value="" placeholder="Age must be integer"></td>
+        <tr></tr>
+        <td><label>Login </label></td>
+        <td><input type="text" id="userLogin" value="" placeholder="Login must be unique"></td>
+        <tr></tr>
+        <td><label>Password </label></td>
+        <td><input type="text" id="userPassword" value="" placeholder="Enter password"></td>
+        <tr></tr>
+        <td>
+            <button type="button" id="send" onclick="sendMsg()">Сохранить</button>
+        </td>
+    </table>
+</form>
+
+<div id="usersList" style="display: none">
+    <h1>List of users:</h1>
+    <table style="width: 500px; border: solid 2px;" id="usersTable">
+        <thead>
+        <tr>
+            <td style="width: 50px">Id</td>
+            <td style="width: 150px">Имя</td>
+            <td style="width: 100px">Возраст</td>
+            <td style="width: 100px">Логин</td>
+            <td style="width: 100px">Пароль</td>
+        <tr>
+        </thead>
+        <tbody id="usersStr">
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
