@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Страница администратора1</title>
+
+    <script src="/webjars/jquery/2.2.4/jquery.min.js"></script>
+    <script src="/webjars/sockjs-client/1.1.2/sockjs.min.js"></script>
+    <script src="/webjars/stomp-websocket/2.3.3-1/stomp.min.js"></script>
+    <script src="/app2.js">
+
+    </script>
+</head>
+
+<body>
+<br/>
+<div>
+    <button id="connect" onclick="connect()">Connect</button>
+    <button id="disconnect" onclick="disconnect()" disabled="disabled">Disconnect</button>
+</div>
+
+<form id="create-form" accept-charset="utf-8">
+    <h1>Create new question:</h1>
+    <table style="width: 300px; border: solid 0px;">
+        <td><label>Text </label></td>
+        <td><input type="text" id="theme" value="" placeholder="Theme must be unique"></td>
+        <tr></tr>
+
+        <td><label>Answer 1 </label></td>
+        <td><input type="checkbox" id="checkbox1"></td>
+        <td><input type="text" id="answer1" value="" placeholder="Text of answer 1"></td>
+        <tr></tr>
+
+        <td><label>Answer 2 </label></td>
+        <td><input type="checkbox" id="checkbox2"></td>
+        <td><input type="text" id="answer2" value="" placeholder="Text of answer 2"></td>
+        <tr></tr>
+
+        <td><label>Answer 3 </label></td>
+        <td><input type="checkbox" id="checkbox3"></td>
+        <td><input type="text" id="answer3" value="" placeholder="Text of answer 3"></td>
+        <tr></tr>
+
+        <td><label>Answer 4 </label></td>
+        <td><input type="checkbox" id="checkbox4"></td>
+        <td><input type="text" id="answer4" value="" placeholder="Text of answer 4"></td>
+        <tr></tr>
+
+        <td>
+            <button type="button" id="sendRegister" onclick="sendMsgRegister2()">Register</button>
+        </td>
+    </table>
+</form>
+<br/>
+<div id="questionsList" style="display: none">
+    <h1>List of questions:</h1>
+    <table style="width: 1000px; border: solid 2px;" id="questionsTable">
+        <thead>
+        <tr>
+            <td style="width: 50px">Id</td>
+            <td style="width: 100px">Text</td>
+            <td style="width: 100px">answer 1</td>
+            <td style="width: 10px">true/false</td>
+            <td style="width: 100px">answer 2</td>
+            <td style="width: 10px">true/false</td>
+            <td style="width: 100px">answer 3</td>
+            <td style="width: 10px">true/false</td>
+            <td style="width: 100px">answer 4</td>
+            <td style="width: 10px">true/false</td>
+        <tr>
+        </thead>
+        <tbody id="questionsStr">
+
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
