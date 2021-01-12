@@ -82,6 +82,15 @@ public class Question {
         return checkbox4;
     }
 
+
+    public void setCheckbox3(boolean checkbox3) {
+        this.checkbox3 = checkbox3;
+    }
+
+    public void setCheckbox4(boolean checkbox4) {
+        this.checkbox4 = checkbox4;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -97,4 +106,5 @@ public class Question {
                 ", true/false4:'" + checkbox1 + '\'' +
                 '}';
     }
+
 }

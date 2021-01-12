@@ -1,6 +1,5 @@
 package ru.package01.core.service;
 
-import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,6 @@ public class DbServiceUserImpl implements DbServiceUser {
             ) {
                 logger.info("created user:_____");
                 userRepository.save(user);
-
             }
 
             long userId = user.getId();
@@ -39,25 +37,6 @@ public class DbServiceUserImpl implements DbServiceUser {
             return userId;
         } catch (Exception e) {
             System.out.println("DID NOT CREATED");
-            throw new DbServiceException(e);
-        }
-    }
-
-    @Override
-    public long updateUser(String userString) {
-        try {
-            Gson gson = new Gson();
-            User user = gson.fromJson(userString, User.class);
-            String str = gson.toJson(user.getAnswer());
-
-            userRepository.updateAnswer(user.getLogin(), str);
-            logger.info("updated user:_____" + user.toString());
-
-            long userId = userRepository.findByLogin(user.getLogin()).get(0).getId();
-            logger.info("updated user: {}", userId);
-            return userId;
-        } catch (Exception e) {
-            System.out.println("DID NOT UPDATE");
             throw new DbServiceException(e);
         }
     }

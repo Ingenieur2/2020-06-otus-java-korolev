@@ -55,8 +55,8 @@ const showMessage = (question) => {
         (question.theme === "") ||
         (question.answer1 === "") ||
         (question.answer2 === "") ||
-        (question.answer3 === "") ||
-        (question.answer4 === "") ||
+        // (question.answer3 === "") ||
+        // (question.answer4 === "") ||
 
         ((question.checkbox1 === false) &&
             (question.checkbox2 === false) &&
@@ -65,14 +65,29 @@ const showMessage = (question) => {
     ) {
         $("#questionsStr").append();
     } else {
-        $("#questionsStr").append("<tr>" +
-            "<td>" + question.question_id + "</td>" +
-            "<td>" + question.theme + "</td>" +
-            "<td>" + question.answer1 + "</td>" + "<td>" + question.checkbox1 + "</td>" +
-            "<td>" + question.answer2 + "</td>" + "<td>" + question.checkbox2 + "</td>" +
-            "<td>" + question.answer3 + "</td>" + "<td>" + question.checkbox3 + "</td>" +
-            "<td>" + question.answer4 + "</td>" + "<td>" + question.checkbox4 + "</td>" +
-            "</tr>");
+        if ((question.answer3 === "")) {
+            question.checkbox3 = false;
+        }
+        if ((question.answer4 === "")) {
+            question.checkbox4 = false;
+        }
+        if ((question.checkbox1 === false) &&
+            (question.checkbox2 === false) &&
+            (question.checkbox3 === false) &&
+            (question.checkbox4 === false)) {
+            $("#questionsStr").append();
+        } else {
+
+
+            $("#questionsStr").append("<tr>" +
+                "<td>" + question.question_id + "</td>" +
+                "<td>" + question.theme + "</td>" +
+                "<td>" + question.answer1 + "</td>" + "<td>" + question.checkbox1 + "</td>" +
+                "<td>" + question.answer2 + "</td>" + "<td>" + question.checkbox2 + "</td>" +
+                "<td>" + question.answer3 + "</td>" + "<td>" + question.checkbox3 + "</td>" +
+                "<td>" + question.answer4 + "</td>" + "<td>" + question.checkbox4 + "</td>" +
+                "</tr>");
+        }
     }
 }
 

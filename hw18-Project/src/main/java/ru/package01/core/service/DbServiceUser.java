@@ -8,8 +8,6 @@ import java.util.Optional;
 public interface DbServiceUser {
     long saveUser(User user);
 
-    long updateUser(String user);
-
     long checkUser(User user);
 
     Optional<User> getUser(long id);

@@ -11,17 +11,15 @@ public class User {
     private long id;
     private String login;
     private String password;
-    private Object answer;
 
     public User() {
     }
 
     @PersistenceConstructor
-    public User(long id, String login, String password, Object answer) {
+    public User(long id, String login, String password) {
         this.id = id;
         this.login = login;
         this.password = password;
-        this.answer = answer;
     }
 
     public long getId() {
@@ -40,9 +38,6 @@ public class User {
         return password;
     }
 
-    public Object getAnswer() {
-        return answer;
-    }
 
     @Override
     public String toString() {
@@ -50,7 +45,6 @@ public class User {
                 "id=" + id +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", answer='" + answer + '\'' +
                 '}';
     }
 }

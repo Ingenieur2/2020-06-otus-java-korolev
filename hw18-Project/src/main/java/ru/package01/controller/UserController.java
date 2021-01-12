@@ -1,12 +1,10 @@
 package ru.package01.controller;
 
-import com.google.gson.Gson;
+
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import ru.package01.core.model.User;
-import ru.package01.core.service.CheckService;
-import ru.package01.core.service.CheckServiceImpl;
 import ru.package01.core.service.DbServiceQuestion;
 import ru.package01.core.service.DbServiceUser;
 
@@ -43,15 +41,5 @@ public class UserController {
     public void getAll() {
         List<User> users = dbServiceUser.getAll();
         messagingTemplate.convertAndSend("/topic/getAll", users);
-    }
-
-    @MessageMapping("/chat.addUserAnswer")
-    public void userUpdate(String userString) {
-        long id = dbServiceUser.updateUser(userString);
-        CheckService checkService = new CheckServiceImpl(dbServiceUser, dbServiceQuestion);
-        Gson gson = new Gson();
-        User user = gson.fromJson(userString, User.class);
-        user.setId(id);
-        messagingTemplate.convertAndSend("/topic/usersResult", checkService.checkAnswer(user));
     }
 }

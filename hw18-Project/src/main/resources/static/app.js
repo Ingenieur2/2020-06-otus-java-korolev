@@ -102,10 +102,21 @@ const showTests = (questions) => {
             '<tr><td><label name="question_id">' + question.question_id + '</label></td><td><label name="theme">' + question.theme + '</label></td>' +
 
             '<tr> <td></td><td><label name="answer1">' + question.answer1 + '</label></td>' + '<td><input name="checkbox1" type="checkbox" id="checkbox1"></td> </tr>' +
-            '<tr> <td></td><td><label name="answer2">' + question.answer2 + '</label></td>' + '<td><input name="checkbox2" type="checkbox" id="checkbox2"></td> </tr>' +
-            '<tr> <td></td><td><label name="answer3">' + question.answer3 + '</label></td>' + '<td><input name="checkbox3" type="checkbox" id="checkbox3"></td> </tr>' +
-            '<tr> <td></td><td><label name="answer4">' + question.answer4 + '</label></td>' + '<td><input name="checkbox4" type="checkbox" id="checkbox4"></td> </tr>'
+            '<tr> <td></td><td><label name="answer2">' + question.answer2 + '</label></td>' + '<td><input name="checkbox2" type="checkbox" id="checkbox2"></td> </tr>'
         )
+        if (question.answer3 === "") {
+            $("#testsStr").append('<tr style="display: none"> <td></td><td><label name="answer3">' + question.answer3 + '</label></td>' + '<td><input name="checkbox3" type="checkbox" id="checkbox3"></td> </tr>')
+        } else {
+            $("#testsStr").append('<tr> <td></td><td><label name="answer3">' + question.answer3 + '</label></td>' + '<td><input name="checkbox3" type="checkbox" id="checkbox3"></td> </tr>')
+        }
+        if (question.answer4 === "") {
+            $("#testsStr").append('<tr style="display: none"> <td></td><td><label name="answer4">' + question.answer4 + '</label></td>' + '<td><input name="checkbox4" type="checkbox" id="checkbox4"></td> </tr>')
+        } else {
+            $("#testsStr").append('<tr> <td></td><td><label name="answer4">' + question.answer4 + '</label></td>' + '<td><input name="checkbox4" type="checkbox" id="checkbox4"></td> </tr>')
+        }
+
+
+        $("#usersList").hide();
     }
     $("#testsStr").append(
         '<td></td><td><button type="button" id="sendAnswer" onclick="sendMsgAnswer()">Send answers</button></td>'
@@ -139,7 +150,6 @@ function sendMsgAnswer(user, questions) {
     }
     stompClient.send("/app/chat.addUserAnswer", {}, JSON.stringify({
         login: $("#userLogin").val(),
-        password: $("#userPassword").val(),
         answer: arrayOfTrValues
     }));
     $("#sendAnswer")[0].disabled = true;

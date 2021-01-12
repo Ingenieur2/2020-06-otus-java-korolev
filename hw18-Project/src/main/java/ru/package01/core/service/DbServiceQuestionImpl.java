@@ -23,12 +23,16 @@ public class DbServiceQuestionImpl implements DbServiceQuestion {
     @Override
     public long saveQuestion(Question question) {
         try {
+            if (question.getAnswer3().equals("")) {
+                question.setCheckbox3(false);
+            }
+            if (question.getAnswer4().equals("")) {
+                question.setCheckbox4(false);
+            }
             if (((questionRepository.findByThemeOfQuestion(question.getTheme()).isEmpty())
                     && !question.getTheme().equals(""))
                     && !question.getAnswer1().equals("")
                     && !question.getAnswer2().equals("")
-                    && !question.getAnswer3().equals("")
-                    && !question.getAnswer4().equals("")
                     && (question.isCheckbox1() || question.isCheckbox2() || question.isCheckbox3() || question.isCheckbox4())
 
             ) {
