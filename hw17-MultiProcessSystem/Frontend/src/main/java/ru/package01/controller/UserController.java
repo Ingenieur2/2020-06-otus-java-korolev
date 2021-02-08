@@ -18,7 +18,6 @@ import java.rmi.RemoteException;
 public class UserController {
     private final SimpMessagingTemplate messagingTemplate;
 
-
     public UserController(SimpMessagingTemplate messagingTemplate) {
         this.messagingTemplate = messagingTemplate;
     }
@@ -28,9 +27,9 @@ public class UserController {
         Gson gson = new Gson();
         String data = gson.toJson(user);
 
-        EchoInterface echoInterface = (EchoInterface) Naming.lookup("//localhost/MessageServer");
+        EchoInterface echoInterface = (EchoInterface) Naming.lookup("//localhost/MessageServer002");
         var dataFromServer = echoInterface.echo(data);
-        System.out.println(String.format("response from the MessageServer (1) : %s", dataFromServer));
+        System.out.println(String.format("response from the MessageServer 002 (1) : %s", dataFromServer));
         User userBack = gson.fromJson(dataFromServer, User.class);
 
         messagingTemplate.convertAndSend("/topic/users", userBack);

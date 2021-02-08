@@ -17,7 +17,6 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.server.UnicastRemoteObject;
 
-
 public class DbServer extends UnicastRemoteObject implements EchoInterface {
     public static final String HIBERNATE_CFG_FILE = "hibernate.cfg.xml";
 
@@ -40,7 +39,6 @@ public class DbServer extends UnicastRemoteObject implements EchoInterface {
 
     @Override
     public String echo(String data) {
-
 
         MigrationsExecutor migrationsExecutor = new MigrationsExecutorFlyway(HIBERNATE_CFG_FILE);
         migrationsExecutor.executeMigrations();

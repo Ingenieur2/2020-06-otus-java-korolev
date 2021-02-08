@@ -1,4 +1,4 @@
-package ru.package01.core.dao;
+package ru.package01.hibernate.dao;
 
 
 import org.hibernate.Session;
@@ -6,6 +6,8 @@ import org.hibernate.query.Query;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ru.package01.core.dao.UserDao;
+import ru.package01.core.dao.UserDaoException;
 import ru.package01.core.model.User;
 import ru.package01.core.sessionmanager.SessionManager;
 import ru.package01.hibernate.sessionmanager.DatabaseSessionHibernate;

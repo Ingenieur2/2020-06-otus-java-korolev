@@ -29,13 +29,13 @@ const disconnect = () => {
 }
 
 function sendMsg() {
-        stompClient.send("/app/chat.addUser", {}, JSON.stringify({
-            id: $("#userId").val(),
-            name: $("#userName").val(),
-            age: $("#userAge").val(),
-            login: $("#userLogin").val(),
-            password: $("#userPassword").val()
-        }));
+    stompClient.send("/app/chat.addUser", {}, JSON.stringify({
+        id: $("#userId").val(),
+        name: $("#userName").val(),
+        age: $("#userAge").val(),
+        login: $("#userLogin").val(),
+        password: $("#userPassword").val()
+    }));
     $("#create-form")[0].reset();
 }
 

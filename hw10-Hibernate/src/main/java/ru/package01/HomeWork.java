@@ -54,7 +54,7 @@ public class HomeWork {
         outputUserOptional("Created user", mayBeCreatedUser);
 //-------------------------------------------------------------------------------------------------
         User user2 = new User();
-        user2.setName("Jerry"); //if "Tom" ->  Нарушение уникального индекса или первичного ключа: "PUBLIC.UK_3G1J96G94XPK3LPXL2QBL985X_INDEX_4 ON PUBLIC.USERS(NAME) VALUES 1"
+        user2.setName("Jerry"); //if "Tom" ->  Violation of a unique index or primary key: "PUBLIC.UK_3G1J96G94XPK3LPXL2QBL985X_INDEX_4 ON PUBLIC.USERS(NAME) VALUES 1"
         user2.setAge(10);
         AddressDataSet address2 = new AddressDataSet();
         address2.setStreet("Street 2");
@@ -76,7 +76,7 @@ public class HomeWork {
 
         phone1.setNumber("23-45");
         phone1.setUser(user1);
-        user1.setPhone(List.of(phone1, phone2)); // phone2 не поменялся
+        user1.setPhone(List.of(phone1, phone2)); // phone2 didn't change
 
         id = dbServiceUser.saveUser(user1);
         mayBeCreatedUser = dbServiceUser.getUser(id);
