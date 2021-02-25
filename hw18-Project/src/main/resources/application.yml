@@ -4,7 +4,8 @@ server:
 app:
   datasource:
     demo-db:
-      jdbcUrl: jdbc:postgresql://localhost:5432/demoDb
+      #      jdbcUrl: jdbc:postgresql://localhost:5432/demoDb
+      jdbcUrl: jdbc:postgresql://192.168.99.100:5432/demoDb
       username: usr
       password: pwd
 

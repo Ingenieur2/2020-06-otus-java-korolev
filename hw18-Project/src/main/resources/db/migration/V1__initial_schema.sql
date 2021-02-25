@@ -3,35 +3,75 @@ create table users
     id       bigserial           not null primary key,
     login    varchar(255) unique not null,
     password varchar(255)        not null
-
 );
-insert into users (login, password) values ('admin' , 'admin');
-
-create table answers
-(
-    answer_id       bigserial      not null primary key,
-    login           varchar(255)   not null,
-    answer00     text           not null
-);
+insert into users (login, password)
+values ('admin', 'admin');
+insert into users (login, password)
+values ('user', 'user');
 
 create table questions
 (
-    question_id       bigserial         not null primary key,
-    theme    varchar(255) unique    not null,
-    answer1  varchar(255)           not null,
-    checkbox1 boolean,
-    answer2  varchar(255)       not null,
-    checkbox2 boolean,
-    answer3  varchar(255)       not null,
-    checkbox3 boolean,
-    answer4  varchar(255)       not null,
-    checkbox4 boolean
+    id       bigserial           not null primary key,
+    question varchar(255) unique not null
 );
-insert into questions ( theme,  answer1,  checkbox1, answer2,  checkbox2,  answer3,  checkbox3, answer4,  checkbox4) values
-                      ('2+2=?', '4',    true,  '0',  false,    '',   false,  '8',   false);
---insert into questions ( theme,  answer1,  checkbox1, answer2,  checkbox2,  answer3,  checkbox3, answer4,  checkbox4) values
---                      ('В каком году была куликовская битва?', '1240',    false,  '1530',  false,    '1380',   true,  '1480',   false);
---insert into questions ( theme,  answer1,  checkbox1, answer2,  checkbox2,  answer3,  checkbox3, answer4,  checkbox4) values
---                      ('x*x = 16. x=?', '8',    false,  '4',  true,    '64',   false,  '-4',   true);
---insert into questions ( theme,  answer1,  checkbox1, answer2,  checkbox2,  answer3,  checkbox3, answer4,  checkbox4) values
---                      ('Если на объект ссылается только эта ссылка, то он удалится при первой сборке мусора:', 'Weak',    true,  'Soft',  false,    'Phantom',   false,  '',   false);
+insert into questions (question)
+values ('2+2=?');
+insert into questions (question)
+values ('В каком году была куликовская битва?');
+insert into questions (question)
+values ('x*x = 16. x=?');
+insert into questions (question)
+values ('Если на объект ссылается только эта ссылка, то он удалится при первой сборке мусора:');
+
+create table right_answers
+(
+    id          bigserial    not null primary key,
+    answer      varchar(255) not null,
+    question_id bigserial    not null,
+    checkbox    boolean
+);
+insert into right_answers (answer, question_id, checkbox)
+values ('4', 1, true);
+insert into right_answers (answer, question_id, checkbox)
+values ('0', 1, false);
+insert into right_answers (answer, question_id, checkbox)
+values ('3', 1, false);
+insert into right_answers (answer, question_id, checkbox)
+values ('8', 1, false);
+
+insert into right_answers (answer, question_id, checkbox)
+values ('1240', 2, false);
+insert into right_answers (answer, question_id, checkbox)
+values ('1530', 2, false);
+insert into right_answers (answer, question_id, checkbox)
+values ('1380', 2, true);
+insert into right_answers (answer, question_id, checkbox)
+values ('1480', 2, false);
+
+insert into right_answers (answer, question_id, checkbox)
+values ('8', 3, false);
+insert into right_answers (answer, question_id, checkbox)
+values ('4', 3, true);
+insert into right_answers (answer, question_id, checkbox)
+values ('64', 3, false);
+insert into right_answers (answer, question_id, checkbox)
+values ('-4', 3, true);
+
+insert into right_answers (answer, question_id, checkbox)
+values ('Weak', 4, true);
+insert into right_answers (answer, question_id, checkbox)
+values ('Soft', 4, false);
+insert into right_answers (answer, question_id, checkbox)
+values ('Phantom', 4, false);
+insert into right_answers (answer, question_id, checkbox)
+values ('Gc', 4, false);
+
+
+create table user_answers
+(
+    id          bigserial not null primary key,
+    user_id     bigserial not null,
+    question_id bigserial not null,
+    answer_id   bigserial not null,
+    checkbox    boolean
+)

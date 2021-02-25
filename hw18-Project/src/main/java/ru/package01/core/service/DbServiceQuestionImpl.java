@@ -1,5 +1,6 @@
 package ru.package01.core.service;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -21,30 +22,22 @@ public class DbServiceQuestionImpl implements DbServiceQuestion {
     }
 
     @Override
-    public long saveQuestion(Question question) {
+    public long saveQuestion(String questionString) {
         try {
-            if (question.getAnswer3().equals("")) {
-                question.setCheckbox3(false);
-            }
-            if (question.getAnswer4().equals("")) {
-                question.setCheckbox4(false);
-            }
-            if (((questionRepository.findByThemeOfQuestion(question.getTheme()).isEmpty())
-                    && !question.getTheme().equals(""))
-                    && !question.getAnswer1().equals("")
-                    && !question.getAnswer2().equals("")
-                    && (question.isCheckbox1() || question.isCheckbox2() || question.isCheckbox3() || question.isCheckbox4())
-
+            Gson gson = new Gson();
+            Question question = gson.fromJson(questionString, Question.class);
+            if ((questionRepository.findByQuestion(question.getQuestion()).isEmpty())
+                    && !question.getQuestion().equals("")
             ) {
-                logger.info("created question:_____");
                 questionRepository.save(question);
+                logger.info("created question:_____");
             }
 
-            long questionId = question.getQuestion_id();
+            long questionId = question.getId();
             logger.info("created question: {}", questionId);
             return questionId;
         } catch (Exception e) {
-            System.out.println("--DID NOT CREATED--");
+            System.out.println("DID NOT CREATED");
             throw new DbServiceException(e);
         }
     }

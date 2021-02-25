@@ -1,5 +1,6 @@
 package ru.package01.core.service;
 
+import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -22,14 +23,16 @@ public class DbServiceUserImpl implements DbServiceUser {
     }
 
     @Override
-    public long saveUser(User user) {
+    public long saveUser(String userString) {
         try {
+            Gson gson = new Gson();
+            User user = gson.fromJson(userString, User.class);
             if ((userRepository.findByLogin(user.getLogin()).isEmpty())
                     && !user.getLogin().equals("")
                     && !user.getPassword().equals("")
             ) {
-                logger.info("created user:_____");
                 userRepository.save(user);
+                logger.info("created user:_____");
             }
 
             long userId = user.getId();
@@ -42,15 +45,21 @@ public class DbServiceUserImpl implements DbServiceUser {
     }
 
     @Override
-    public long checkUser(User user) {
+    public long checkUser(String userString) {
         try {
+            Gson gson = new Gson();
+            User user = gson.fromJson(userString, User.class);
+            long userId = 0;
             if (userRepository.findByLogin(user.getLogin()).get(0).getId() ==
                     userRepository.findByPassword(user.getPassword()).get(0).getId()) {
                 logger.info("--LOGIN SUCCESSFUL--");
-            }
 
-            long userId = userRepository.findByLogin(user.getLogin()).get(0).getId();
-            logger.info("found user with id= {}", userId);
+
+                userId = userRepository.findByLogin(user.getLogin()).get(0).getId();
+                logger.info("found user with id= {}", userId);
+            } else {
+                logger.info("password: {}   for user: {} does not match", user.getPassword(), user.getLogin());
+            }
             return userId;
         } catch (Exception e) {
             System.out.println("DID NOT FIND");

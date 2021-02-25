@@ -23,31 +23,29 @@
     <h1>Create new question:</h1>
     <table style="width: 300px; border: solid 0px;">
         <td><label>Text </label></td>
-        <td><input type="text" id="theme" value="" placeholder="Theme must be unique"></td>
+        <td><input type="text" id="question" value="" placeholder="Text of question must be unique"></td>
         <tr></tr>
-
-        <td><label>Answer 1 </label></td>
-        <td><input type="checkbox" id="checkbox1"></td>
-        <td><input type="text" id="answer1" value="" placeholder="Text of answer 1"></td>
-        <tr></tr>
-
-        <td><label>Answer 2 </label></td>
-        <td><input type="checkbox" id="checkbox2"></td>
-        <td><input type="text" id="answer2" value="" placeholder="Text of answer 2"></td>
-        <tr></tr>
-
-        <td><label>Answer 3 </label></td>
-        <td><input type="checkbox" id="checkbox3"></td>
-        <td><input type="text" id="answer3" value="" placeholder="Text of answer 3"></td>
-        <tr></tr>
-
-        <td><label>Answer 4 </label></td>
-        <td><input type="checkbox" id="checkbox4"></td>
-        <td><input type="text" id="answer4" value="" placeholder="Text of answer 4"></td>
-        <tr></tr>
-
         <td>
-            <button type="button" id="sendRegister" onclick="sendMsgRegister2()">Register</button>
+            <button type="button" id="sendRegister" onclick="sendMsgRegister2()">Add question</button>
+        </td>
+    </table>
+
+
+</form>
+<form id="create-form3" accept-charset="utf-8">
+    <h1>Create new answer:</h1>
+    <table style="width: 500px; border: solid 0px;">
+        <td><label>Text </label></td>
+        <td><input type="text" id="answer" value="" placeholder="Text of answer must be unique"></td>
+        <tr></tr>
+        <td><label>Number of question </label></td>
+        <td><input type="text" id="question_id" value="" placeholder="Question must be integer"></td>
+        <tr></tr>
+        <td><label>True/False </label></td>
+        <td><input type="checkbox" id="checkbox"></td>
+        <tr></tr>
+        <td>
+            <button type="button" id="sendAnswer" onclick="sendMsgRegister3()">Add answer</button>
         </td>
     </table>
 </form>
@@ -59,17 +57,26 @@
         <tr>
             <td style="width: 50px">Id</td>
             <td style="width: 100px">Text</td>
-            <td style="width: 100px">answer 1</td>
-            <td style="width: 10px">true/false</td>
-            <td style="width: 100px">answer 2</td>
-            <td style="width: 10px">true/false</td>
-            <td style="width: 100px">answer 3</td>
-            <td style="width: 10px">true/false</td>
-            <td style="width: 100px">answer 4</td>
-            <td style="width: 10px">true/false</td>
-        <tr>
+        </tr>
         </thead>
         <tbody id="questionsStr">
+
+        </tbody>
+    </table>
+</div>
+
+<div id="answersList" style="display: none">
+    <h1>List of answers:</h1>
+    <table style="width: 1000px; border: solid 2px;" id="answersTable">
+        <thead>
+        <tr>
+            <td style="width: 50px">Id</td>
+            <td style="width: 100px">Text</td>
+            <td style="width: 100px">Question Id</td>
+            <td style="width: 100px">True/false</td>
+        </tr>
+        </thead>
+        <tbody id="answersStr">
 
         </tbody>
     </table>

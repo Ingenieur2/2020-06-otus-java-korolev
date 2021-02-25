@@ -5,27 +5,31 @@ import org.springframework.data.annotation.PersistenceConstructor;
 import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.Table;
 
-@Table("right_answers")
-public class Answer {
+
+@Table("user_answers")
+public class User_answer {
     @Id
     @Column("id")
     private long id;
-    @Column("answer")
-    private String answer;
+    @Column("user_id")
+    private long user_id;
     @Column("question_id")
     private long question_id;
+    @Column("answer_id")
+    private long answer_id;
     @Column("checkbox")
     private boolean checkbox;
 
-    public Answer() {
+    public User_answer() {
 
     }
 
     @PersistenceConstructor
-    public Answer(long id, String answer, long question_id, boolean checkbox) {
+    public User_answer(long id, long user_id, long question_id, long answer_id, boolean checkbox) {
         this.id = id;
-        this.answer = answer;
+        this.user_id = user_id;
         this.question_id = question_id;
+        this.answer_id = answer_id;
         this.checkbox = checkbox;
     }
 
@@ -37,12 +41,12 @@ public class Answer {
         this.id = id;
     }
 
-    public String getAnswer() {
-        return answer;
+    public long getUser_id() {
+        return user_id;
     }
 
-    public void setAnswer(String answer) {
-        this.answer = answer;
+    public void setUser_id(long user_id) {
+        this.user_id = user_id;
     }
 
     public long getQuestion_id() {
@@ -51,6 +55,14 @@ public class Answer {
 
     public void setQuestion_id(long question_id) {
         this.question_id = question_id;
+    }
+
+    public long getAnswer_id() {
+        return answer_id;
+    }
+
+    public void setAnswer_id(long answer_id) {
+        this.answer_id = answer_id;
     }
 
     public boolean isCheckbox() {
@@ -63,11 +75,12 @@ public class Answer {
 
     @Override
     public String toString() {
-        return "Right_Answer{" +
+        return "User_answer{" +
                 "id=" + id +
-                ", answer='" + answer + '\'' +
+                ", user_id=" + user_id +
                 ", question_id=" + question_id +
-                ", checkbox='" + checkbox + '\'' +
+                ", answer_id=" + answer_id +
+                ", checkbox=" + checkbox +
                 '}';
     }
 }

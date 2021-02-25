@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DbServiceUser {
-    long saveUser(User user);
+    long saveUser(String userString);
 
-    long checkUser(User user);
+    long checkUser(String userString);
 
     Optional<User> getUser(long id);
 

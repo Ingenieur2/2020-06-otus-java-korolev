@@ -1,15 +1,19 @@
 let stompClient = null;
 
 const setConnected = (connected) => {
-    $("#connect").prop("disabled", connected);
-    $("#disconnect").prop("disabled", !connected);
+    $('#connect').prop("disabled", connected);
+    $('#disconnect').prop("disabled", !connected);
     if (connected) {
-        $("#questionsList").show();
+        $('#questionsList').show();
+        $('#answersList').show();
     } else {
-        $("#questionsList").hide();
+        $('#questionsList').hide();
+        $('#answersList').hide();
     }
-    $("#questionsTable > tbody").empty();
-    sendMsgAll();
+    $('#questionsTable > tbody').empty();
+    $('#answersTable > tbody').empty();
+    sendMsgAllQuestions();
+    sendMsgAllAnswers();
 }
 
 const connect = () => {
@@ -18,7 +22,9 @@ const connect = () => {
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/getAllQuestions', (message) => showAllQuestions(JSON.parse(message.body)));
-        stompClient.subscribe('/topic/questions', (message) => showMessage(JSON.parse(message.body)));
+        stompClient.subscribe('/topic/questions', (message) => showMessageQuestion(JSON.parse(message.body)));
+        stompClient.subscribe('/topic/getAllAnswers', (message) => showAllAnswers(JSON.parse(message.body)));
+        stompClient.subscribe('/topic/answers', (message) => showMessageAnswer(JSON.parse(message.body)));
     });
 }
 
@@ -32,62 +38,55 @@ const disconnect = () => {
 
 function sendMsgRegister2() {
     stompClient.send("/app/chat.addQuestion", {}, JSON.stringify({
-        question_id: $("#questionId").val(),
-        theme: $("#theme").val(),
-        answer1: $("#answer1").val(),
-        checkbox1: $("#checkbox1").is(':checked'),
-        answer2: $("#answer2").val(),
-        checkbox2: $("#checkbox2").is(':checked'),
-        answer3: $("#answer3").val(),
-        checkbox3: $("#checkbox3").is(':checked'),
-        answer4: $("#answer4").val(),
-        checkbox4: $("#checkbox4").is(':checked')
+        question_id: $('#questionId').val(),
+        question: $('#question').val()
     }));
-    $("#create-form")[0].reset();
+    $('#create-form')[0].reset();
 }
 
-function sendMsgAll() {
+function sendMsgRegister3() {
+    stompClient.send("/app/chat.addAnswer", {}, JSON.stringify({
+        answer: $('#answer').val(),
+        question_id: $('#question_id').val(),
+        checkbox: $('#checkbox').is(':checked')
+    }));
+    $('#create-form3')[0].reset();
+}
+
+function sendMsgAllQuestions() {
     stompClient.send("/app/chat.getAllQuestions", {}, {});
 }
 
-const showMessage = (question) => {
-    if ((question.question_id === 0) ||
-        (question.theme === "") ||
-        (question.answer1 === "") ||
-        (question.answer2 === "") ||
-        // (question.answer3 === "") ||
-        // (question.answer4 === "") ||
+function sendMsgAllAnswers() {
+    stompClient.send("/app/chat.getAllAnswers", {}, {});
+}
 
-        ((question.checkbox1 === false) &&
-            (question.checkbox2 === false) &&
-            (question.checkbox3 === false) &&
-            (question.checkbox4 === false))
+const showMessageQuestion = (question) => {
+    if ((question.id === 0) ||
+        (question.question === "")
     ) {
-        $("#questionsStr").append();
+        $('#questionsStr').append();
     } else {
-        if ((question.answer3 === "")) {
-            question.checkbox3 = false;
-        }
-        if ((question.answer4 === "")) {
-            question.checkbox4 = false;
-        }
-        if ((question.checkbox1 === false) &&
-            (question.checkbox2 === false) &&
-            (question.checkbox3 === false) &&
-            (question.checkbox4 === false)) {
-            $("#questionsStr").append();
-        } else {
 
+        $('#questionsStr').append('<tr>' +
+            '<td>' + question.id + '</td>' +
+            '<td>' + question.question + '</td>' +
+            '</tr>');
+    }
+}
 
-            $("#questionsStr").append("<tr>" +
-                "<td>" + question.question_id + "</td>" +
-                "<td>" + question.theme + "</td>" +
-                "<td>" + question.answer1 + "</td>" + "<td>" + question.checkbox1 + "</td>" +
-                "<td>" + question.answer2 + "</td>" + "<td>" + question.checkbox2 + "</td>" +
-                "<td>" + question.answer3 + "</td>" + "<td>" + question.checkbox3 + "</td>" +
-                "<td>" + question.answer4 + "</td>" + "<td>" + question.checkbox4 + "</td>" +
-                "</tr>");
-        }
+const showMessageAnswer = (right_answer) => {
+    if ((right_answer.id === 0) ||
+        (right_answer.answer === "")
+    ) {
+        $("#answersStr").append();
+    } else {
+    $('#answersStr').append('<tr>' +
+        '<td>' + right_answer.id + '</td>' +
+        '<td>' + right_answer.answer + '</td>' +
+        '<td>' + right_answer.question_id + '</td>' +
+        '<td>' + right_answer.checkbox + '</td>' +
+        '</tr>');
     }
 }
 
@@ -95,14 +94,24 @@ const showAllQuestions = (questions) => {
     if (questions.length > 0) {
         for (let i = 0; i < questions.length; i++) {
             let question = questions[i];
-            $("#questionsStr").append("<tr>" +
-                "<td>" + question.question_id + "</td>" +
-                "<td>" + question.theme + "</td>" +
-                "<td>" + question.answer1 + "</td>" + "<td>" + question.checkbox1 + "</td>" +
-                "<td>" + question.answer2 + "</td>" + "<td>" + question.checkbox2 + "</td>" +
-                "<td>" + question.answer3 + "</td>" + "<td>" + question.checkbox3 + "</td>" +
-                "<td>" + question.answer4 + "</td>" + "<td>" + question.checkbox4 + "</td>" +
-                "</tr>")
+            $('#questionsStr').append('<tr>' +
+                '<td>' + question.id + '</td>' +
+                '<td>' + question.question + '</td>' +
+                '</tr>')
+        }
+    }
+}
+
+const showAllAnswers = (right_answers) => {
+    if (right_answers.length > 0) {
+        for (let i = 0; i < right_answers.length; i++) {
+            let right_answer = right_answers[i];
+            $('#answersStr').append('<tr>' +
+                '<td>' + right_answer.id + '</td>' +
+                '<td>' + right_answer.answer + '</td>' +
+                '<td>' + right_answer.question_id + '</td>' +
+                '<td>' + right_answer.checkbox + '</td>' +
+                '</tr>')
         }
     }
 }

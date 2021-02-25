@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DbServiceQuestion {
-    long saveQuestion(Question user);
+    long saveQuestion(String questionString);
 
     Optional<Question> getQuestion(long id);
 

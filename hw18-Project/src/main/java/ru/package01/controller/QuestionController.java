@@ -7,6 +7,7 @@ import ru.package01.core.model.Question;
 import ru.package01.core.service.DbServiceQuestion;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class QuestionController {
@@ -20,8 +21,8 @@ public class QuestionController {
     }
 
     @MessageMapping("/chat.addQuestion")
-    public void questionSave(Question question) {
-        long id = dbServiceQuestion.saveQuestion(question);
+    public void questionSave(String questionString) {
+        long id = dbServiceQuestion.saveQuestion(questionString);
         if (id != 0) {
             messagingTemplate.convertAndSend("/topic/questions", dbServiceQuestion.getQuestion(id));
         }
@@ -31,5 +32,11 @@ public class QuestionController {
     public void getAll() {
         List<Question> questions = dbServiceQuestion.getAll();
         messagingTemplate.convertAndSend("/topic/getAllQuestions", questions);
+    }
+
+    @MessageMapping("/chat.getQuestion")
+    public void getQuestion(String id) {
+        Optional<Question> question = dbServiceQuestion.getQuestion(Long.parseLong(id));
+        messagingTemplate.convertAndSend("/topic/getQuestion", question.orElseThrow());
     }
 }
