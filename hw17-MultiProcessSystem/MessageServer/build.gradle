@@ -1,0 +1,17 @@
+plugins {
+    id 'java'
+}
+
+group 'ru.package01'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':hw17-MultiProcessSystem:MessageSystem')
+    implementation("ch.qos.logback:logback-classic")
+
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
